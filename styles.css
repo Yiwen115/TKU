@@ -1,0 +1,391 @@
+:root {
+    --primary: #00ff9d;
+    --secondary: #ff00ff;
+    --background: #1a1a1a;
+    --text: #ffffff;
+    --accent: #00c3ff;
+    --danger: #ff4444;
+    --success: #00ff00;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    width: 90vw;
+    max-width: 1200px;
+    height: 90vh;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+/* 狀態面板樣式 */
+.status-panel {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.player-info h2 {
+    font-family: 'Press Start 2P', cursive;
+    color: var(--primary);
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    margin-bottom: 15px;
+}
+
+.stat-label {
+    display: block;
+    color: var(--accent);
+    margin-bottom: 5px;
+}
+
+.energy-bar {
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.energy-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    width: 100%;
+    transition: width 0.3s ease;
+}
+
+.energy-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.streak-count {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5em;
+    color: var(--primary);
+}
+
+/* 成就展示區域 */
+.achievements-showcase {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.achievements-showcase h3 {
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.recent-achievements {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 主要遊戲區域 */
+.main-area {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+.timer, .level {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.8em;
+    color: var(--accent);
+}
+
+.challenge-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.scenario {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 1.2em;
+    line-height: 1.6;
+    flex: 1;
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 10px;
+}
+
+.option {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.option:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.option.selected {
+    border-color: var(--primary);
+    background: rgba(0, 255, 157, 0.1);
+}
+
+/* 成就彈出提示 */
+.achievement-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--primary);
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: slideIn 0.5s ease-out;
+    z-index: 1000;
+}
+
+.achievement-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+}
+
+.achievement-info {
+    flex: 1;
+}
+
+.achievement-title {
+    color: var(--primary);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.achievement-description {
+    font-size: 0.9em;
+    color: var(--text);
+    opacity: 0.8;
+}
+
+/* 遊戲結束畫面 */
+.game-over {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.game-over-content {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.game-over h2 {
+    font-family: 'Press Start 2P', cursive;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.final-stats {
+    margin: 20px 0;
+}
+
+.restart-btn {
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    color: var(--background);
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.restart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+}
+
+/* 動畫 */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .game-container {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .status-panel {
+        order: 2;
+    }
+
+    .main-area {
+        order: 1;
+    }
+
+    .options-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 摄像头容器样式 */
+.camera-container {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+    border: 1px solid var(--accent);
+}
+
+#input-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1); /* 镜像显示 */
+}
+
+#hand-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(-1); /* 镜像显示 */
+}
+
+.gesture-hint {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.9em;
+}
+
+.hint-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+}
+
+/* 选项高亮效果 */
+.option.highlight {
+    border-color: var(--primary);
+    background: rgba(0, 255, 157, 0.2);
+    transform: scale(1.05);
+}
+
+.option.confirm {
+    border-color: var(--success);
+    background: rgba(0, 255, 0, 0.2);
+    animation: confirmPulse 0.5s ease-in-out;
+}
+
+@keyframes confirmPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+} 

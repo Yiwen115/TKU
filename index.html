@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人生模擬器 2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <body>
+    <!-- Weather Effects -->
+    <div class="weather-container">
+        <!-- Weather effects will be added dynamically -->
+    </div>
+
+    <!-- Achievements Panel -->
+    <div class="achievements-panel">
+        <div class="achievements-header">
+            <h2>成就系統</h2>
+            <button class="close-achievements">×</button>
+        </div>
+        <div class="achievements-categories">
+            <button class="category-btn active" data-category="all">全部</button>
+            <button class="category-btn" data-category="gameplay">遊戲</button>
+            <button class="category-btn" data-category="special">特殊</button>
+            <button class="category-btn" data-category="hidden">隱藏</button>
+        </div>
+        <div class="achievements-list">
+            <!-- Achievements will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Activity Bar -->
+    <div class="activity-bar">
+        <div class="activity-item active" title="遊戲主畫面">
+            🎮
+        </div>
+        <div class="activity-item" title="成就系統">
+            🏆
+        </div>
+        <div class="activity-item" title="排行榜">
+            📊
+        </div>
+        <div class="activity-item" title="設定">
+            ⚙️
+        </div>
+    </div>
+
+    <div class="game-container">
+        <!-- 左側狀態面板 -->
+        <div class="status-panel">
+            <!-- 攝像頭容器 -->
+            <div class="camera-container">
+                <video id="input-video" playsinline></video>
+                <canvas id="hand-canvas"></canvas>
+                <div class="gesture-hint">
+                    <div class="hint-item">👈 左手選擇</div>
+                    <div class="hint-item">👉 右手確認</div>
+                </div>
+            </div>
+
+            <div class="player-info">
+                <h2>人生狀態</h2>
+                <div class="stat-item">
+                    <span class="stat-label">精力值</span>
+                    <div class="energy-bar">
+                        <div class="energy-fill"></div>
+                        <span class="energy-text">100%</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">連擊數</span>
+                    <span class="streak-count">0</span>
+                </div>
+            </div>
+            
+            <!-- 成就展示 -->
+            <div class="achievements-showcase">
+                <h3>最近解鎖</h3>
+                <div class="recent-achievements"></div>
+            </div>
+        </div>
+
+        <!-- 主要遊戲區域 -->
+        <div class="main-area">
+            <div class="game-header">
+                <div class="timer">剩餘時間: <span class="timer-value">30</span></div>
+                <div class="level">Level: <span class="level-value">1</span></div>
+            </div>
+
+            <div class="challenge-area">
+                <div class="scenario"></div>
+                <div class="options-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-item">
+            <div class="branch-indicator">新手工程師</div>
+        </div>
+        <div class="status-item">
+            <span>💪</span> 連續答對: 0
+        </div>
+    </div>
+
+    <!-- Loading Terminal -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-button terminal-close"></div>
+                <div class="terminal-button terminal-minimize"></div>
+                <div class="terminal-button terminal-maximize"></div>
+                <span class="terminal-title">正在編譯人生...</span>
+            </div>
+            <div class="loading-content">
+                <h2>> npm install life-experience</h2>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <div class="loading-tip" style="color: var(--success-color)">
+                    > 正在編譯人生...<br>
+                    > 安裝咖啡因依賴...<br>
+                    > 正在處理 PM 的需求...<br>
+                    > 尋找 Stack Overflow 解答...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial with VS Code Theme -->
+    <div id="tutorial" class="tutorial-overlay" style="display: none;">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-button terminal-close"></div>
+                <div class="terminal-button terminal-minimize"></div>
+                <div class="terminal-button terminal-maximize"></div>
+                <span class="terminal-title">遊戲教學</span>
+            </div>
+            <div class="tutorial-content">
+                <h2>🎮 Debug 人生模擬器</h2>
+                <div class="tutorial-steps">
+                    <div class="tutorial-step">
+                        <div class="step-icon">🫱</div>
+                        <div class="step-text">左手指指點點，像個產品經理一樣到處指揮</div>
+                    </div>
+                    <div class="tutorial-step">
+                        <div class="step-icon">🫲</div>
+                        <div class="step-text">右手舉手，像在跟PM說"這個需求我上禮拜就做完了"</div>
+                    </div>
+                    <div class="tutorial-step">
+                        <div class="step-icon">🙌</div>
+                        <div class="step-text">雙手往下，假裝在打程式但其實在摸魚</div>
+                    </div>
+                    <div class="tutorial-step">
+                        <div class="step-icon">🏆</div>
+                        <div class="step-text">解鎖成就，收集各種慘烈人生經驗值</div>
+                    </div>
+                    <div class="tutorial-step">
+                        <div class="step-icon">💀</div>
+                        <div class="step-text">答錯太多次，就像被 Git 打回原形</div>
+                    </div>
+                </div>
+                <button id="start-game" class="game-button">開始掙扎</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 成就解鎖提示 -->
+    <div class="achievement-popup" style="display: none">
+        <div class="achievement-icon"></div>
+        <div class="achievement-info">
+            <div class="achievement-title"></div>
+            <div class="achievement-description"></div>
+        </div>
+    </div>
+
+    <!-- 遊戲結束畫面 -->
+    <div class="game-over" style="display: none">
+        <div class="game-over-content">
+            <h2>遊戲結束</h2>
+            <div class="final-stats"></div>
+            <button class="restart-btn">重新開始</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="game.js"></script>
+  </body>
+</html>
